@@ -27,3 +27,19 @@ class uploader:#this class handles the upload of a csv while iterating through i
         # self.db.commit()
     def commit(self):
         self.db.commit()
+    def select(self,table_name, col_names, params=False):
+        query = "SELECT "+','.join(str(i) for i in col_names)
+        query = query+" FROM "+table_name
+        if params:
+            query = query+ " WHERE "+params
+        print(query)
+        self.cursor.execute(query)
+    def get_selection(self):
+        return self.cursor.fetchall();
+
+def download_test():
+    d=uploader()
+    d.select("traffic_accidents", ["tu1_driver_humancontribfactor","incident_address", "geo_lat,geo_lon"], "tu1_driver_humancontribfactor='NO APPARENT'")
+    print(d.get_selection())
+
+download_test()
